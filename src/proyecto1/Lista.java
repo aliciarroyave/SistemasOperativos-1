@@ -24,6 +24,7 @@ public class Lista {
         nuevo.setPrioridad(Priori);
         nuevo.setID(Id);
         nuevo.setTiempo(tiempo);
+        nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
         
         nuevo.setsiguiente(null);
@@ -37,6 +38,7 @@ public class Lista {
         nuevo.setPrioridad(Priori);
         nuevo.setID(Id);
         nuevo.setTiempo(tiempo);
+        nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
         nuevo.setsiguiente(null);
         Final.setsiguiente(nuevo);
@@ -50,6 +52,7 @@ public class Lista {
         nuevo.setPrioridad(Priori);
         nuevo.setID(Id);
         nuevo.setTiempo(tiempo);
+        nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
         nuevo.setsiguiente(Inicio);
         Inicio = nuevo;
@@ -100,6 +103,10 @@ public class Lista {
         Final=temp;
         Tam--;
       }
+
+    public Nodo getInicio() {
+        return Inicio;
+    }
       
 
       
@@ -116,8 +123,6 @@ public class Lista {
             } 
       }
       
-  
-      
       
     public void Recorrer(int Priori)
     {
@@ -126,7 +131,7 @@ public class Lista {
         while(temp!=null)
            {
                System.out.println("Prioridad " +temp.Prioridad+ 
-                       " Id "+ temp.ID+" Tiempo " + temp.Tiempo + " Hora : " + temp.Hora);   
+                       " Id "+ temp.ID+" Tiempo " + temp.Tiempo + " Hora : " + temp.Hora + "TiempoRE: " + temp.TiempoRe);   
                temp=temp.siguiente;
            }
     }
