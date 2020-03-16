@@ -21,6 +21,7 @@ public class Nodo
      int Tiempo;
      int TiempoRe;
      String Hora;
+     boolean terminado = false;
        
 
      
@@ -30,11 +31,20 @@ public class Nodo
         ID = "";
         Tiempo=0;
         TiempoRe=0;
+        terminado = false;
        // Hora = new SimpleDateFormat("HH:mm:ss");
         
         siguiente= null;
     }
-     
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado) {
+        this.terminado = terminado;
+    }
+           
     public int getPrioridad() {
         return Prioridad;
     }
