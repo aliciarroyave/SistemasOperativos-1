@@ -21,7 +21,8 @@ public class FrameInterfaz extends javax.swing.JFrame {
     hiloPC pc = new hiloPC();
     
     
-    Lista P = new Lista(); // Se declara la lista enlazada de procesos
+    Lista ListaProcesos = new Lista(); // Se declara la lista enlazada de procesos
+    Lista ListaInter = new Lista(); // Se declara la lista enlazada de procesos
     int contpro =0; //Contador de procesos
     int contint =0; //Contador de procesos    
     
@@ -32,6 +33,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         modelolista = new DefaultListModel();  
         jlistProcesos.setModel(modelolista);
+        pc.start();
     }
 
     /**
@@ -47,10 +49,9 @@ public class FrameInterfaz extends javax.swing.JFrame {
         btnCrearInt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlistProcesos = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JTextField();
+        jtxtdireccion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lbProceso = new javax.swing.JLabel();
@@ -67,7 +68,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnCrearPro);
-        btnCrearPro.setBounds(0, 370, 170, 25);
+        btnCrearPro.setBounds(0, 370, 170, 21);
 
         btnCrearInt.setText("Crear Interrupcion");
         btnCrearInt.addActionListener(new java.awt.event.ActionListener() {
@@ -76,21 +77,12 @@ public class FrameInterfaz extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnCrearInt);
-        btnCrearInt.setBounds(0, 410, 170, 25);
+        btnCrearInt.setBounds(0, 410, 170, 21);
 
         jScrollPane1.setViewportView(jlistProcesos);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(180, 330, 230, 230);
-
-        jButton1.setText("Mostrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(37, 460, 120, 25);
 
         jLabel2.setText("Program Counter (PC)");
         getContentPane().add(jLabel2);
@@ -100,57 +92,61 @@ public class FrameInterfaz extends javax.swing.JFrame {
         getContentPane().add(jLabel3);
         jLabel3.setBounds(40, 126, 140, 20);
 
-        txtDireccion.setEditable(false);
-        txtDireccion.setText("direccion");
-        txtDireccion.addActionListener(new java.awt.event.ActionListener() {
+        jtxtdireccion.setEditable(false);
+        jtxtdireccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtxtdireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDireccionActionPerformed(evt);
+                jtxtdireccionActionPerformed(evt);
             }
         });
-        getContentPane().add(txtDireccion);
-        txtDireccion.setBounds(180, 120, 57, 30);
+        getContentPane().add(jtxtdireccion);
+        jtxtdireccion.setBounds(180, 130, 60, 20);
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("h");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(250, 130, 7, 16);
+        jLabel4.setBounds(250, 130, 20, 20);
 
         jLabel5.setText("Proceso:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(120, 160, 50, 16);
+        jLabel5.setBounds(120, 160, 50, 13);
 
         lbProceso.setText("proceso");
         getContentPane().add(lbProceso);
-        lbProceso.setBounds(180, 160, 70, 16);
+        lbProceso.setBounds(180, 160, 70, 13);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProActionPerformed
-     
-        // Processos se les asignara prioridad 2  
-        // Instrucciones Prioridad 1 
-        
+  
         contpro++; // variable para contador de procesos
         String IdPro= "P"+ contpro; // Id del proceso 
+        String DirecM = " ";
         
        // Numero entero entre 5 y 15 Que sera la duracion del proceso
        // Primer numero es el tope del numero aleatorio
        // El segundo es el numero donde inicia 
        // Y el 1 para que no sea 0
        Random numRa = new Random();
-       int Tiempo = numRa.nextInt(15-5+1) + 5;
+       int Tiempo = numRa.nextInt(15-5) + 5;
+       int direc = numRa.nextInt(255) + 1; //Numero Aleatorio para la direccion de memoria 
+       DirecM = "0x"+direc; // Asignacion de la direccion de memoria
        
         // Hora actual del sistema     
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss"); //Se filtra para el formato de la hora
         String Hora = hourdateFormat.format(date); //Asignar a una variable String
                       
-        P.InsertarP(2,IdPro,Tiempo, Hora ); // Se agrega a la lista enlazada 
+        ListaProcesos.InsertarP(2,IdPro,DirecM,Tiempo, Hora ); // Se agrega a la lista enlazada 
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
         modelolista.insertElementAt(IdPro,modelolista.size() ); //Se agrega a la lista
-        if(!pc.espera) {pc.setProceso(P.getInicio()); pc.start();}
-        jButton1ActionPerformed(evt);
+       
         
+        /*
+      if(!pc.espera) {pc.setProceso(ListaProcesos.getInicio()); pc.start();}
+      //jButton1ActionPerformed(evt);
+        */
         
     }//GEN-LAST:event_btnCrearProActionPerformed
 
@@ -159,7 +155,8 @@ public class FrameInterfaz extends javax.swing.JFrame {
         // Processos se les asignara prioridad 2  
         // Instrucciones Prioridad 1 
         contint++; // variable para contador de Interrupciones
-        String IdInte= "I"+ contint; // Id de la interrupcion 
+        String IdInte= "I"+ contint; // Id de la interrupcion
+        String DirecM ="";
         
        // Numero entero entre 5 y 10 Que sera la duracion de la instruccion
        // Primer numero es el tope del numero aleatorio
@@ -173,23 +170,21 @@ public class FrameInterfaz extends javax.swing.JFrame {
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss"); //Se filtra para el formato de la hora
         String Hora = hourdateFormat.format(date); // Asignar a una variable String
                       
-        P.InsertarP(1,IdInte,Tiempo, Hora );
+        ListaInter.InsertarP(1,DirecM,IdInte,Tiempo, Hora );
         // Se agrega a la lista enlazada 
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
         
         modelolista.add(0, IdInte); // Se agrega a la lista
-        if(!pc.espera) {pc.setProceso(P.getInicio()); pc.start();}
-        pc.newInt();
+        
+        /*
+        if(!pc.espera) {pc.setInterupt(ListaInter.getInicio()); pc.start();}
+        pc.newInt();*/
 
     }//GEN-LAST:event_btnCrearIntActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      P.Recorrer(0); 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
+    private void jtxtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtdireccionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDireccionActionPerformed
+    }//GEN-LAST:event_jtxtdireccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,73 +221,84 @@ public class FrameInterfaz extends javax.swing.JFrame {
         });
     }
     public class hiloPC extends Thread{
-        hiloPC hilo;
-        Nodo procesoInicial, proceso;
-        boolean espera = false, interup = false;
-
-        public void setProceso(Nodo proceso) {
-            this.procesoInicial = proceso;
-            espera = true;
-        }
-        public void newInt(){
-            proceso = procesoInicial;
-            interup = true;
-        }
-
+        boolean proc = false, inter = false, espera = true;
+        Nodo interp, procep;
         public void run(){
-           proceso = procesoInicial;
-           while (true){
-               if(espera){
-                   if(interup){
-                        if(proceso.getPrioridad() == 1){
-                             if(!proceso.isTerminado()){
-                                 proceso.setTiempoRe(proceso.getTiempoRe()-1);
-                                 lbProceso.setText(proceso.getID()); 
-                                 //txtDireccion.setText(proceso.getDireccion); direccion del proceso ??
-                                 System.out.println("resta int: " + proceso.getID());
-                                 if(proceso.getTiempoRe() == 0){
-                                     System.out.println("Fin Int: " + proceso.getID());
-                                     proceso.setTerminado(true);
-                                     proceso = proceso.getsiguiente();
-                                 }
-                             }
-                        }else{
-                            interup=false;
+           procep = ListaProcesos.getInicio();
+           interp = ListaInter.getInicio();
+           while(true){
+                lbProceso.setText("-");
+                jtxtdireccion.setText("-");
+                if(procep != null){
+                    proc = true;
+                    espera = false;
+                }else procep = ListaProcesos.getInicio();
+                if(interp != null){
+                    inter = true;
+                    espera = false;
+                }else interp = ListaInter.getInicio();
+                if(!espera){
+                    if(inter){
+                        boolean newInt=true;
+                        interp = ListaInter.getInicio();
+                        while (newInt) {                            
+                            while(!interp.terminado){
+                                lbProceso.setText(interp.ID);
+                                jtxtdireccion.setText(interp.getDirecM());
+                                interp.setTiempoRe(interp.getTiempoRe()-1);
+                                System.out.println("Atendiendo Interrupccion: " + interp.getDirecM()+ "timepor RE: " + interp.getTiempoRe());
+                                if(interp.getTiempoRe()==0){
+                                    interp.setTerminado(true);
+                                    System.out.println("INterupccion: " + interp.getDirecM() + "Terminado");
+                                }
+                                
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(hiloPC.class.getName()).log(Level.SEVERE, null, ex);
+                                } 
+                                if(interp.getsiguiente() != ListaInter.getInicio()){
+                                interp.getsiguiente();
+                                }else newInt = false;
+                            }
+                            
+                        }
+                        
+                    }
+                    if(proc){
+                        if(!procep.isTerminado()){
+                            lbProceso.setText(procep.ID);
+                            jtxtdireccion.setText(procep.getDirecM());
+                            procep.setTiempoRe(procep.getTiempoRe()-1);
+                            System.out.println("Atendiendo Proceso: " + procep.getID() + "timepor RE: " + procep.getTiempoRe());
+                            if(procep.getTiempoRe()==0){
+                                procep.setTerminado(true);
+                                System.out.println("Proceso: " + procep.getID() + "Terminado");
+                            }
+                            procep = procep.getsiguiente();
                         }
                     }
-
-                    if(!proceso.isTerminado()){
-                         proceso.setTiempoRe(proceso.getTiempoRe()-1);
-                         lbProceso.setText(proceso.getID()); 
-                         //txtDireccion.setText(proceso.getDireccion); direccion del proceso ??
-                         System.out.println("resta proc: " + proceso.getID());
-                         if(proceso.getTiempoRe() == 0){
-                             System.out.println("Fin proc: " + proceso.getID());
-                             proceso.setTerminado(true);
-                         }
-                         proceso = proceso.getsiguiente();
-                    }
-               }
-               try {
+                }
+                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(hiloPC.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } 
            }
+            
         }   
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearInt;
     private javax.swing.JButton btnCrearPro;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> jlistProcesos;
+    private javax.swing.JTextField jtxtdireccion;
     private javax.swing.JLabel lbProceso;
-    private javax.swing.JTextField txtDireccion;
     // End of variables declaration//GEN-END:variables
 }
