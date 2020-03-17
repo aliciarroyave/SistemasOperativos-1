@@ -18,6 +18,7 @@ public class Nodo
      public Nodo siguiente;
      int Prioridad;
      String ID;
+     String DirecM;
      int Tiempo;
      int TiempoRe;
      String Hora;
@@ -29,12 +30,21 @@ public class Nodo
     {
         Prioridad=0;
         ID = "";
+        DirecM="";
         Tiempo=0;
         TiempoRe=0;
         terminado = false;
-       // Hora = new SimpleDateFormat("HH:mm:ss");
+      
         
         siguiente= null;
+    }
+
+    public String getDirecM() {
+        return DirecM;
+    }
+
+    public void setDirecM(String DirecM) {
+        this.DirecM = DirecM;
     }
 
     public boolean isTerminado() {
@@ -92,8 +102,6 @@ public class Nodo
     public Nodo(int Prioridad)
             {
              this.Prioridad = Prioridad;
-             siguiente = null;
-             
             }
     
        
