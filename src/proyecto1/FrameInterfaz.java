@@ -246,7 +246,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
                                 lbProceso.setText(interp.ID);
                                 jtxtdireccion.setText(interp.getDirecM());
                                 interp.setTiempoRe(interp.getTiempoRe()-1);
-                                System.out.println("Atendiendo Interrupccion: " + interp.getDirecM()+ "timepor RE: " + interp.getTiempoRe());
+                                System.out.println("Atendiendo Interrupccion: " + interp.getDirecM()+ " timepor RE: " + interp.getTiempoRe());
                                 if(interp.getTiempoRe()==0){
                                     interp.setTerminado(true);
                                     System.out.println("INterupccion: " + interp.getDirecM() + "Terminado");
@@ -257,10 +257,10 @@ public class FrameInterfaz extends javax.swing.JFrame {
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(hiloPC.class.getName()).log(Level.SEVERE, null, ex);
                                 } 
-                                if(interp.getsiguiente() != ListaInter.getInicio()){
-                                interp.getsiguiente();
-                                }else newInt = false;
                             }
+                            if(interp.getsiguiente() != ListaInter.getInicio()){
+                            interp = interp.getsiguiente();
+                            }else newInt = false;
                             
                         }
                         
@@ -270,7 +270,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
                             lbProceso.setText(procep.ID);
                             jtxtdireccion.setText(procep.getDirecM());
                             procep.setTiempoRe(procep.getTiempoRe()-1);
-                            System.out.println("Atendiendo Proceso: " + procep.getID() + "timepor RE: " + procep.getTiempoRe());
+                            System.out.println("Atendiendo Proceso: " + procep.getID() + " timepor RE: " + procep.getTiempoRe());
                             if(procep.getTiempoRe()==0){
                                 procep.setTerminado(true);
                                 System.out.println("Proceso: " + procep.getID() + "Terminado");
