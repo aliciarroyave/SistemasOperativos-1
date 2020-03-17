@@ -275,8 +275,8 @@ public class FrameInterfaz extends javax.swing.JFrame {
                                 procep.setTerminado(true);
                                 System.out.println("Proceso: " + procep.getID() + "Terminado");
                             }
-                            procep = procep.getsiguiente();
                         }
+                        procep = procep.getsiguiente();
                     }
                 }
                 try {
