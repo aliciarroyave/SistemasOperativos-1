@@ -25,7 +25,7 @@ public class Lista {
     }
     
     
-     private void CrearLista(int Priori, String Id,String DirecM, int tiempo , String hora)
+     private void CrearLista(int Priori, int Id,String DirecM, int tiempo , String hora, int correlativo)
     {
         Nodo nuevo = new Nodo(Priori);
         nuevo.setPrioridad(Priori);
@@ -35,6 +35,7 @@ public class Lista {
         nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
         nuevo.terminado=false;
+        nuevo.setCorrelativo(correlativo);
         
        // nuevo.setsiguiente(null);
        nuevo.setsiguiente(nuevo);
@@ -48,7 +49,7 @@ public class Lista {
      
  
     
-     private void InsertarF(int Priori, String Id,String DirecM, int tiempo , String hora)
+     private void InsertarF(int Priori, int Id,String DirecM, int tiempo , String hora, int correlativo)
     {
         Nodo nuevo = new Nodo(Priori);
         nuevo.setPrioridad(Priori);
@@ -58,6 +59,7 @@ public class Lista {
         nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
         nuevo.terminado=false;
+        nuevo.setCorrelativo(correlativo);
         
         nuevo.setsiguiente(Inicio);
         Final.setsiguiente(nuevo);
@@ -84,11 +86,11 @@ public class Lista {
 //      
 
          
-      public void InsertarP(int Priori, String Id,String DirecM, int tiempo , String hora)
+      public void InsertarP(int Priori, int Id,String DirecM, int tiempo , String hora, int correlativo)
       {
             if(Tam==0)
             {
-            this.CrearLista(Priori,Id, DirecM, tiempo, hora);
+            this.CrearLista(Priori,Id, DirecM, tiempo, hora, correlativo);
             }
 
 //            else if(Priori==Inicio.Prioridad)
@@ -97,7 +99,7 @@ public class Lista {
 //            }
               else //if(Priori==Final.Prioridad)
             {
-                this.InsertarF(Priori,Id,DirecM, tiempo, hora);
+                this.InsertarF(Priori,Id,DirecM, tiempo, hora, correlativo);
             }
       
       }

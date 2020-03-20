@@ -17,23 +17,25 @@ public class Nodo
 {
      public Nodo siguiente;
      int Prioridad;
-     String ID;
+     int ID;
      String DirecM;
      int Tiempo;
      int TiempoRe;
      String Hora;
      boolean terminado = false;
+     int correlativo;
        
 
      
       public void Nodo()
     {
         Prioridad=0;
-        ID = "";
+        ID = 0;
         DirecM="";
         Tiempo=0;
         TiempoRe=0;
         terminado = false;
+        correlativo=0;
       
         
         siguiente= null;
@@ -90,11 +92,11 @@ public class Nodo
      
      
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
     
@@ -103,6 +105,14 @@ public class Nodo
             {
              this.Prioridad = Prioridad;
             }
+
+    public int getCorrelativo() {
+        return correlativo;
+    }
+
+    public void setCorrelativo(int correlativo) {
+        this.correlativo = correlativo;
+    }
     
        
    

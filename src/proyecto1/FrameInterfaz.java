@@ -1,6 +1,8 @@
 
 package proyecto1;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,7 +25,20 @@ import javax.swing.Timer;
  * @author GuillePC
  */
 public class FrameInterfaz extends javax.swing.JFrame {
+    
+    public Image getIconImage() {
+   Image retValue = Toolkit.getDefaultToolkit().
+         getImage(ClassLoader.getSystemResource("imagenes/logo.png"));
+
+
+   return retValue;
+}
+    
     DefaultListModel modelolista;
+    DefaultListModel modelolista1;
+    DefaultListModel modelolista2;
+    DefaultListModel modelolista3;
+    DefaultListModel modelolista4;
     hiloPC pc = new hiloPC();
     
     
@@ -31,7 +46,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
     Lista ListaInter = new Lista(); // Se declara la lista enlazada de procesos
     int contpro =0; //Contador de procesos
     int contint =0; //Contador de procesos    
-    
+    int correlativo =0;
     
     
     public FrameInterfaz() {
@@ -40,11 +55,19 @@ public class FrameInterfaz extends javax.swing.JFrame {
         Timer tiempo = new Timer(100, new FrameInterfaz.hora());
         tiempo.start();
         modelolista = new DefaultListModel();  
+        modelolista1 = new DefaultListModel();  
+        modelolista2 = new DefaultListModel();  
+        modelolista3 = new DefaultListModel();  
+        modelolista4 = new DefaultListModel();  
         jlistProcesos.setModel(modelolista);
+        listaInicio.setModel(modelolista2);
+        listaProcesos.setModel(modelolista1);
+        listaTiempoRestante.setModel(modelolista3);
+        listaTiempototal.setModel(modelolista4);
         pc.start();
     }
     
-    class hora implements ActionListener{
+     class hora implements ActionListener{
         
         public void actionPerformed(ActionEvent e){
             Date hora = new Date();
@@ -75,15 +98,37 @@ public class FrameInterfaz extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lbProceso = new javax.swing.JLabel();
-        jHora = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listaProcesos = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listaInicio = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listaTiempototal = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        listaTiempoRestante = new javax.swing.JList<>();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jHora = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jtxtTurno = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1200, 700));
+        setTitle("Primer Proyecto");
+        setFocusable(false);
+        setFocusableWindowState(false);
+        setIconImage(getIconImage());
+        setMinimumSize(new java.awt.Dimension(1027, 620));
+        setPreferredSize(new java.awt.Dimension(300, 580));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -94,27 +139,29 @@ public class FrameInterfaz extends javax.swing.JFrame {
                 btnCrearProActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCrearPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 170, -1));
+        getContentPane().add(btnCrearPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 150, 30));
 
         btnCrearInt.setBackground(new java.awt.Color(0, 204, 204));
-        btnCrearInt.setText("Crear Interrupcion");
+        btnCrearInt.setText("Crear Interrupción");
         btnCrearInt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearIntActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCrearInt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 170, -1));
+        getContentPane().add(btnCrearInt, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 150, 30));
 
         jlistProcesos.setBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(jlistProcesos);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 170, 230));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 140, 230));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Program Counter (PC)");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 200, 40));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 170, 40));
 
-        jLabel3.setText("Direccion de Memoria:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 126, 140, 20));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Dirección de Memoria:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 170, 20));
 
         jtxtdireccion.setEditable(false);
         jtxtdireccion.setBackground(new java.awt.Color(204, 204, 204));
@@ -124,45 +171,107 @@ public class FrameInterfaz extends javax.swing.JFrame {
                 jtxtdireccionActionPerformed(evt);
             }
         });
-        getContentPane().add(jtxtdireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 60, 20));
+        getContentPane().add(jtxtdireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 60, 20));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("h");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 20, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 20, 20));
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Proceso:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 50, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 70, -1));
 
+        lbProceso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbProceso.setText("proceso");
-        getContentPane().add(lbProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 70, -1));
+        getContentPane().add(lbProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 70, -1));
 
-        jHora.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setText("Proceso");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 300, 60, 14));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Tiempo restante");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 300, 120, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Estadísticas");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 90, -1));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("Turno");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 70, 20));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Inicio");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 300, 60, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Tiempo total");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 300, 90, -1));
+
+        listaProcesos.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane2.setViewportView(listaProcesos);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 320, 80, 230));
+
+        listaInicio.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane3.setViewportView(listaInicio);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, 110, 230));
+
+        listaTiempototal.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane4.setViewportView(listaTiempototal);
+
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 320, 80, 230));
+
+        listaTiempoRestante.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane5.setViewportView(listaTiempoRestante);
+
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 320, 80, 230));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rojo.jpg"))); // NOI18N
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 260));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setText("HORA DEL SISTEMA");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, 190, 14));
+
+        jHora.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jHora.setText("HORA");
-        getContentPane().add(jHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 150, -1));
+        getContentPane().add(jHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, 160, -1));
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel9.setText("HORA DEL SISTEMA");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 100, 200, -1));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/verde.jpg"))); // NOI18N
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 530, 260));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/maxresdefault.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 420, 270));
+        jtxtTurno.setEditable(false);
+        jtxtTurno.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtTurno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtxtTurno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtTurnoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jtxtTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, 60, 20));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rojo.jpg"))); // NOI18N
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 270));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setText("Calendarizador");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 110, 20));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul.png"))); // NOI18N
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 440, 270));
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rojo.jpg"))); // NOI18N
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 260));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/amarillo.jpg"))); // NOI18N
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 420, 270));
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoAmarillo.jpg"))); // NOI18N
+        getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 530, 320));
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul.png"))); // NOI18N
+        getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 480, 320));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProActionPerformed
-     
-        
-        
+  
+        correlativo++;
         contpro++; // variable para contador de procesos
         String IdPro= "P"+ contpro; // Id del proceso 
         String DirecM = " ";
@@ -180,14 +289,26 @@ public class FrameInterfaz extends javax.swing.JFrame {
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss"); //Se filtra para el formato de la hora
         String Hora = hourdateFormat.format(date); //Asignar a una variable String
+        String HoraTabla = Hora+" hrs";
                       
-        ListaProcesos.InsertarP(2,IdPro,DirecM,Tiempo, Hora ); // Se agrega a la lista enlazada 
+        ListaProcesos.InsertarP(2,contpro,DirecM,Tiempo, Hora, correlativo); // Se agrega a la lista enlazada 
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
-        modelolista.insertElementAt(IdPro,modelolista.size() ); //Se agrega a la lista 
+        modelolista.insertElementAt(IdPro,modelolista.size() ); //Se agrega a la lista
+        modelolista1.insertElementAt(IdPro,modelolista1.size() ); //Se agrega a lista de estadísticas
+        modelolista2.insertElementAt(HoraTabla,modelolista2.size() ); //Se agrega a lista de estadísticas
+        modelolista4.insertElementAt(Tiempo,modelolista4.size() ); //Se agrega a lista de estadísticas
+        modelolista3.insertElementAt(Tiempo,modelolista3.size() ); //Se agrega a lista de estadísticas
+        
+        /*
+      if(!pc.espera) {pc.setProceso(ListaProcesos.getInicio()); pc.start();}
+      //jButton1ActionPerformed(evt);
+        */
+        
     }//GEN-LAST:event_btnCrearProActionPerformed
 
     private void btnCrearIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearIntActionPerformed
        
+        correlativo++;
         // Processos se les asignara prioridad 2  
         // Instrucciones Prioridad 1 
         contint++; // variable para contador de Interrupciones
@@ -200,22 +321,38 @@ public class FrameInterfaz extends javax.swing.JFrame {
        // Y el 1 para que no sea 0
        Random numRa = new Random();
        int Tiempo = numRa.nextInt(15-5+1) + 5;
+       int direc = numRa.nextInt(255) + 1; //Numero Aleatorio para la direccion de memoria 
+       DirecM = "0x"+direc; // Asignacion de la direccion de memoria
        
         // Hora actual del sistema     
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss"); //Se filtra para el formato de la hora
         String Hora = hourdateFormat.format(date); // Asignar a una variable String
+        String HoraTabla = Hora+" hrs";
                       
-        ListaInter.InsertarP(1,DirecM,IdInte,Tiempo, Hora );
+        ListaInter.InsertarP(1,contint,DirecM,Tiempo, Hora, correlativo);
         // Se agrega a la lista enlazada 
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
         
         modelolista.add(0, IdInte); // Se agrega a la lista
+        modelolista1.insertElementAt(IdInte,modelolista1.size() ); //Se agrega a lista de estadísticas
+        modelolista2.insertElementAt(HoraTabla,modelolista2.size() ); //Se agrega a lista de estadísticas
+        modelolista4.insertElementAt(Tiempo,modelolista4.size() ); //Se agrega a lista de estadísticas
+        modelolista3.insertElementAt(Tiempo,modelolista3.size() ); //Se agrega a lista de estadísticas
+        
+        /*
+        if(!pc.espera) {pc.setInterupt(ListaInter.getInicio()); pc.start();}
+        pc.newInt();*/
+
     }//GEN-LAST:event_btnCrearIntActionPerformed
 
     private void jtxtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtdireccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtdireccionActionPerformed
+
+    private void jtxtTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtTurnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtTurnoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,13 +411,16 @@ public class FrameInterfaz extends javax.swing.JFrame {
                         interp = ListaInter.getInicio();
                         while (newInt) {                            
                             while(!interp.terminado){
-                                lbProceso.setText(interp.ID);
+                                lbProceso.setText("I"+Integer.toString(interp.ID));
                                 jtxtdireccion.setText(interp.getDirecM());
+                                jtxtTurno.setText("I"+ String.valueOf(interp.getID())   );
                                 interp.setTiempoRe(interp.getTiempoRe()-1);
+                             //   modelolista3.set(interp.getCorrelativo()-1, interp.getTiempoRe());//cambiando tiempo de interrupcion en estadística
                                 System.out.println("Atendiendo Interrupccion: " + interp.getDirecM()+ " timepor RE: " + interp.getTiempoRe());
                                 if(interp.getTiempoRe()==0){
                                     interp.setTerminado(true);
-                                    System.out.println("INterupccion: " + interp.getDirecM() + "Terminado");
+                                    modelolista3.set(interp.getCorrelativo()-1, interp.getTiempoRe());
+                                  //  System.out.println("Interupccion: " + interp.getDirecM() + "Terminado");
                                 }
                                 
                                 try {
@@ -298,13 +438,16 @@ public class FrameInterfaz extends javax.swing.JFrame {
                     }
                     if(proc){
                         if(!procep.isTerminado()){
-                            lbProceso.setText(procep.ID);
-                            jtxtdireccion.setText(procep.getDirecM());
                             procep.setTiempoRe(procep.getTiempoRe()-1);
-                            System.out.println("Atendiendo Proceso: " + procep.getID() + " timepor RE: " + procep.getTiempoRe());
+                            modelolista3.set(procep.getCorrelativo()-1, procep.getTiempoRe());//cambiando tiempo de interrupcion en estadística
+                            lbProceso.setText("P"+Integer.toString(procep.ID));
+                            jtxtdireccion.setText(procep.getDirecM());
+                            jtxtTurno.setText("P"+String.valueOf(procep.getID()) );
+                         //   System.out.println("Atendiendo Proceso: " + procep.getID() + " time por RE: " + procep.getTiempoRe());
                             if(procep.getTiempoRe()==0){
                                 procep.setTerminado(true);
-                                System.out.println("Proceso: " + procep.getID() + "Terminado");
+                                modelolista3.set(procep.getCorrelativo()-1, procep.getTiempoRe());//cambiando tiempo de interrupcion en estadística
+                              //  System.out.println("Proceso: " + procep.getID() + "Terminado");
                             }
                         }
                         procep = procep.getsiguiente();
@@ -325,6 +468,14 @@ public class FrameInterfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnCrearPro;
     private javax.swing.JLabel jHora;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -334,8 +485,17 @@ public class FrameInterfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JList<String> jlistProcesos;
+    private javax.swing.JTextField jtxtTurno;
     private javax.swing.JTextField jtxtdireccion;
     private javax.swing.JLabel lbProceso;
+    private javax.swing.JList<String> listaInicio;
+    private javax.swing.JList<String> listaProcesos;
+    private javax.swing.JList<String> listaTiempoRestante;
+    private javax.swing.JList<String> listaTiempototal;
     // End of variables declaration//GEN-END:variables
 }
