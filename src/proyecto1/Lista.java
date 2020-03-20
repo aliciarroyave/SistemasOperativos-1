@@ -34,6 +34,7 @@ public class Lista {
         nuevo.setTiempo(tiempo);
         nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
+        nuevo.terminado=false;
         
        // nuevo.setsiguiente(null);
        nuevo.setsiguiente(nuevo);
@@ -56,7 +57,7 @@ public class Lista {
         nuevo.setTiempo(tiempo);
         nuevo.setTiempoRe(tiempo);
         nuevo.setHora(hora);
-        
+        nuevo.terminado=false;
         
         nuevo.setsiguiente(Inicio);
         Final.setsiguiente(nuevo);
