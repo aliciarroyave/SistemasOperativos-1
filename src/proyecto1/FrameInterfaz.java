@@ -41,6 +41,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
         tiempo.start();
         modelolista = new DefaultListModel();  
         jlistProcesos.setModel(modelolista);
+        pc.start();
     }
     
     class hora implements ActionListener{
@@ -182,14 +183,7 @@ public class FrameInterfaz extends javax.swing.JFrame {
                       
         ListaProcesos.InsertarP(2,IdPro,DirecM,Tiempo, Hora ); // Se agrega a la lista enlazada 
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
-        modelolista.insertElementAt(IdPro,modelolista.size() ); //Se agrega a la lista
-       
-        
-        
-      if(!pc.espera) {pc.setProceso(ListaProcesos.getInicio()); pc.start();}
-      //jButton1ActionPerformed(evt);
-        
-        
+        modelolista.insertElementAt(IdPro,modelolista.size() ); //Se agrega a la lista 
     }//GEN-LAST:event_btnCrearProActionPerformed
 
     private void btnCrearIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearIntActionPerformed
@@ -217,11 +211,6 @@ public class FrameInterfaz extends javax.swing.JFrame {
         // El primer valor es la prioridad, Segundo ID, Despues el tiempo que es aleatorio, Luego la hora
         
         modelolista.add(0, IdInte); // Se agrega a la lista
-        
-        
-        if(!pc.espera) {pc.setProceso(ListaInter.getInicio()); pc.start();}
-        pc.newInt();
-
     }//GEN-LAST:event_btnCrearIntActionPerformed
 
     private void jtxtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtdireccionActionPerformed
@@ -263,67 +252,71 @@ public class FrameInterfaz extends javax.swing.JFrame {
         });
     }
     public class hiloPC extends Thread{
-        hiloPC hilo;
-        Nodo procesoInicial, proceso;
-        boolean espera = false, interup = false;
-
-        public void setProceso(Nodo proceso) {
-            this.procesoInicial = proceso;
-            espera = true;
-        }
-        public void newInt(){
-            proceso = procesoInicial;
-            interup = true;
-        }
-
+        boolean proc = false, inter = false, espera = true;
+        Nodo interp, procep;
         public void run(){
-           proceso = procesoInicial;
-           while (true){
-               if(espera){
-                   if(interup){
-                        if(proceso.getPrioridad() == 1){
-                             if(!proceso.isTerminado()){
-                                 proceso.setTiempoRe(proceso.getTiempoRe()-1);
-                                 lbProceso.setText(proceso.getID()); 
-                                 jtxtdireccion.setText(proceso.getDirecM());                                                   
-                                 System.out.println("Tiempo rest " + proceso.getID());
-                                 if(proceso.getTiempoRe() == 0){
-                                     System.out.println("Fin Int: " + proceso.getID());
-                                     proceso.setTerminado(true);
-                                     proceso = proceso.getsiguiente();
-                                 }
-                             }
-                             
+           procep = ListaProcesos.getInicio();
+           interp = ListaInter.getInicio();
+           while(true){
+                lbProceso.setText("-");
+                jtxtdireccion.setText("-");
+                if(procep != null){
+                    proc = true;
+                    espera = false;
+                }else procep = ListaProcesos.getInicio();
+                if(interp != null){
+                    inter = true;
+                    espera = false;
+                }else interp = ListaInter.getInicio();
+                if(!espera){
+                    if(inter){
+                        boolean newInt=true;
+                        interp = ListaInter.getInicio();
+                        while (newInt) {                            
+                            while(!interp.terminado){
+                                lbProceso.setText(interp.ID);
+                                jtxtdireccion.setText(interp.getDirecM());
+                                interp.setTiempoRe(interp.getTiempoRe()-1);
+                                System.out.println("Atendiendo Interrupccion: " + interp.getDirecM()+ " timepor RE: " + interp.getTiempoRe());
+                                if(interp.getTiempoRe()==0){
+                                    interp.setTerminado(true);
+                                    System.out.println("INterupccion: " + interp.getDirecM() + "Terminado");
+                                }
+                                
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(hiloPC.class.getName()).log(Level.SEVERE, null, ex);
+                                } 
+                            }
+                            if(interp.getsiguiente() != ListaInter.getInicio()){
+                            interp = interp.getsiguiente();
+                            }else newInt = false;
+                            
                         }
-                        else{
-                            interup=false;
-                             }
-                    }
-
-                    if(!proceso.isTerminado())
-                    
-                    {
-                       
-                         proceso.setTiempoRe(proceso.getTiempoRe()-1);
-                         lbProceso.setText(proceso.getID()); 
-                         jtxtdireccion.setText(proceso.getDirecM());                                                
-                         System.out.println("ID " + proceso.getID() + "Tiempo Rest: "+ proceso.getTiempoRe() );
-                         if(proceso.getTiempoRe() == 0){
-                             System.out.println(" Fin proc: " + proceso.getID());
-                             proceso.setTerminado(true);
-                         }
-                                              
-                            proceso = proceso.siguiente;
                         
-                                                      
                     }
-               }
-               try {
+                    if(proc){
+                        if(!procep.isTerminado()){
+                            lbProceso.setText(procep.ID);
+                            jtxtdireccion.setText(procep.getDirecM());
+                            procep.setTiempoRe(procep.getTiempoRe()-1);
+                            System.out.println("Atendiendo Proceso: " + procep.getID() + " timepor RE: " + procep.getTiempoRe());
+                            if(procep.getTiempoRe()==0){
+                                procep.setTerminado(true);
+                                System.out.println("Proceso: " + procep.getID() + "Terminado");
+                            }
+                        }
+                        procep = procep.getsiguiente();
+                    }
+                }
+                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(hiloPC.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } 
            }
+            
         }   
 
     }
